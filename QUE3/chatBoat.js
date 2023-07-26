@@ -1,6 +1,7 @@
 module.exports.reply = function (msg) {
     this.Boat_age = 19;
     this.Boat_Name = "Dhruvi";
+    this.Bot_Country = "India";
 
     msg = msg.toLowerCase();
 
