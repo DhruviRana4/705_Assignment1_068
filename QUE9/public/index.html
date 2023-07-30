@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container-fluid d-flex justify-content-center mt-5">
+        <form action="/insert_emp_data" method="post" name="empForm" id="empForm" class="w-50">
+            <h4>INSERT FORM</h4>
+            <div class="row">
+                <div class="form-floating mb-3 col">
+                    <input type="text" class="form-control" name="ename" id="floatingInput" placeholder="name" />
+                    <label for="floatingInput" class="ms-2">Employee Name</label>
+                </div>
+                <div class="form-floating mb-3 col">
+                    <input type="email" class="form-control" name="eEmail" id="floatingInput"
+                        placeholder="name@example.com" />
+                    <label for="floatingInput" class="ms-2">Email address</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating col">
+                    <input type="password" name="epwd" class="form-control" id="floatingPassword"
+                        placeholder="Password" />
+                    <label for="floatingPassword" class="ms-2">Password</label>
+                </div>
+                <div class="col d-flex justify-content-end p-2">
+                    <button type="submit" class="btn btn-success">SAVE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container-fluid text-center mt-3">
+        <h3>Employee Data</h3>
+    </div>
+    <div class="container-fluid d-flex justify-content-center mt-4">
+        <table class="table table-striped w-75 text-center">
+            <thead class="bg-dark text-white fs-5">
+                <tr class="text-center">
+                    <th scope="col">ID</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">EMAIL</th>
+                    <th scope="col">PASSWORD</th>
+                </tr>
+            </thead>
+            <tbody id="empData"></tbody>
+        </table>
+    </div>
+
+    <script>
+        async function loadEmpData() {
+            var response = await fetch("http://localhost:8000/getData");
+            var jsonData = await response.json();
+            var tblData = "";
+            jsonData.map((item) => {
+                tblData += `
+                <tr>
+                    <th scope="row">${item.emp_id}</th>
+                    <td>${item.emp_name}</td>
+                    <td>${item.emp_email}</td>
+                    <td>${item.emp_pwd}</td>
+                </tr>
+                `;
+            });
+            document.getElementById("empData").innerHTML = tblData;
+        }
+        loadEmpData();
+
+        document.getElementById("empForm").addEventListener("submit", async(e) => {
+            e.preventDefault();
+            var fd = new FormData(document.getElementById("empForm"));
+            var data = {};
+            fd.forEach((value, key) => {
+                data[key] = value;
+                console.log("key : " + key + " val : " + value)
+            });
+            console.log(data);
+            try {
+                var response = await fetch("http://localhost:8000/insert_emp_data", {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                var success=await response.text();
+                if(success=="success"){
+                    document.getElementById('empForm').reset();
+                    loadEmpData();
+                    alert("Data inserted...!!");
+                }
+            } catch (err) {
+                console.log(err)
+            }
+        });
+    </script>
+</body>
+
+</html>

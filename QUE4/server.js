@@ -1,5 +1,4 @@
 const http=require("http");
-const { Http2ServerRequest } = require("http2");
 const static=require("node-static");
 const url=require("url");
 const websocket=require("ws");             
