@@ -41,4 +41,4 @@ async function updateDataAndBroadcast() {
     }
 }
 
-// setInterval(updateDataAndBroadcast, 5000);
+setInterval(updateDataAndBroadcast, 5000);
