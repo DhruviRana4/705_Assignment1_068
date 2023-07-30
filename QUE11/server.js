@@ -17,7 +17,7 @@ server.listen(8000, () => {
 
 async function fetchMatchScore() {
     try {
-        var response = await axios.get("https://api.cricapi.com/v1/currentMatches?apikey=5173e8c1-9895-4345-b064-3d74a080273c&offset=0");
+        var response = await axios.get("https://api.cricapi.com/v1/currentMatches?apikey=0bf9e0f5-5333-4925-912f-5a5511d62c19&offset=0");
         return response.data;
     } catch (err) {
         console.log(err)
