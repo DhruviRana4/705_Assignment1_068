@@ -7,7 +7,7 @@ var fileserver=new static.Server("./public");
 var conn=mysql.createConnection({
     host:"localhost",
     user:"root",
-    password:"",
+    password:"root",
     database:"employeedb"
 });
 conn.connect((err)=>{

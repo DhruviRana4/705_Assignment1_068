@@ -2,7 +2,7 @@ const http=require("http");
 const static=require("node-static");
 var url=require("url");
 
-var fileServer=new static.Server("testFolder");
+var fileServer=new static.Server("./testFolder");
 
 const server=http.createServer((req,res)=>{
     console.log("Hello node...!!");
@@ -10,7 +10,7 @@ const server=http.createServer((req,res)=>{
     var url2=url.parse(req.url,true);
     console.log(url2.pathname)
     if(url2.pathname=="/"){
-        fileserver.serve(req,res)
+        fileServer.serve(req,res)
         
     }else if(url2.pathname=="/process" && req.method==="GET"){
         res.end("Email : " + url2.query.user_email  + " Password : " + url2.query.pwd);
